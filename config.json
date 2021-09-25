@@ -1,0 +1,11 @@
+{
+    "Bilili": {
+        "audio-quality": "30280",
+        "video-quality": "80",
+        "directory": "./video"
+    },
+    "BiliFM": {
+        "min-page": "1",
+        "max-page": "1"
+    }
+}
