@@ -6,6 +6,8 @@
     },
     "BiliFM": {
         "min-page": "1",
-        "max-page": "1"
+        "max-page": "3",
+        "directory": "./music",
+        "format": "mp3"
     }
 }

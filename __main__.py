@@ -1,14 +1,14 @@
 try:
     from os import system
     from json import loads
-    from trans2mp3 import musicTrans
+    from trans2 import musicTrans
     import urllib.request
     import click
 
 except ImportError:
     print('Module not found. Please check requirement.txt')
 
-cli_bili = 'bilili https://www.bilibili.com/video/{0} -q {1} --danmaku no -y --disable-proxy -d {2} --audio-quality {3}'
+cli_bili = 'bilili https://www.bilibili.com/video/{0} -q {1} --danmaku no -y --disable-proxy -d {2}{3} --audio-quality {4}'
 json_url = 'https://api.bilibili.com/x/space/arc/search?mid={0}&ps=30&tid=0&pn={1}&keyword=&order=pubdate&jsonp=jsonp'
 config_path = './config.json'
 
@@ -18,7 +18,7 @@ config_path = './config.json'
 @click.option('--music', default=0, help='选择是否转码为音频，默认格式为mp3，默认为否')
 @click.argument('uid')
 def main(save, music, uid):
-    '''
+    '''run main program
     '''
     try:
         config_file = open(config_path, mode='r')
@@ -28,13 +28,13 @@ def main(save, music, uid):
 
     config = loads(config_file.read())
     config_file.close()
-    pn = int(config['BiliFM']['min-page'])
-    pm = int(config['BiliFM']['max-page'])
+    pn = int(config['BiliFM']['min-page']) # define min page
+    pm = int(config['BiliFM']['max-page']) # define max page
     aq = config['Bilili']['audio-quality']
     vq = config['Bilili']['video-quality']
-    di = config['Bilili']['directory']
+    vd = config['Bilili']['directory']
 
-    while pn <= pm:
+    while pn <= pm: # deal with too many videos……
         json_uid = loads(urllib.request.urlopen(
             json_url.format(uid, pn)).read())
 
@@ -45,7 +45,8 @@ def main(save, music, uid):
                 break
 
         for vinfo in json_uid['data']['list']['vlist']:
-            system(cli_bili.format(vinfo['bvid'], vq, di, aq))
+            system(cli_bili.format(vinfo['bvid'], vq, vd, uid, aq))
+        
         pn += 1
 
     print('Video ready!')
@@ -53,7 +54,6 @@ def main(save, music, uid):
         musicTrans(save)
 
     return None
-
 
 if __name__ == '__main__':
     main()
