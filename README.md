@@ -5,7 +5,12 @@ An script to download all videos of the Bilibili uploader you love.
 ## Usage
 使用实例：
 ```Bash
-python 261485584 --save=0 --music=1 
+python __main__.py 261485584 --save=0 --music=1 
+```
+```python
+uid = 261485584 # uid 为up主的uid
+--save=0 # 选择是否保存已下载的视频
+--music=0 # 选择是否将下载的视频转换为音频格式
 ```
 ## Status quo
 * python 版本应不低于3.8（Bilili 库的要求）
