@@ -1,4 +1,5 @@
-# BiliFM
+# BiliFM-dev
+**警告**：该分支下的脚本处于未测试状态，可能造成文件损坏
 ## Intro
 An script to download all videos of the Bilibili uploader you love.  
 使用 Bilili 库的脚本，用于下载指定up主全部或指定数量的视频，并转换为音乐格式（是否转换可选）
