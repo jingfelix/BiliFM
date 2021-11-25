@@ -1,26 +1,39 @@
 # BiliFM-dev
 **警告**：该分支下的脚本处于未测试状态，可能造成文件损坏
 ## Intro
-An script to download all videos of the Bilibili uploader you love.  
-使用 Bilili 库的脚本，用于下载指定up主全部或指定数量的视频，并转换为音乐格式（是否转换可选）
+An script to download all audios of the Bilibili uploader you love.  
+下载指定up主全部或指定数量的视频音频
 ## Usage
 使用实例：
+
+### uid 模式
+
 ```Bash
-python __main__.py 261485584 --save=0 --music=1 
+python __main__.py uid 261485584
 ```
 ```python
-uid = 261485584 # uid 为up主的uid
---save=0 # 选择是否保存已下载的视频
---music=0 # 选择是否将下载的视频转换为音频格式
+uid = "261485584" # uid 为up主的uid
 ```
+### bv 模式
+```bash
+python __main__.py bv BV1k341187
+```
+```python
+bvid = "BV1k341187" # bvid 是要下载的音频的视频bv号
+```
+### list 模式
+```bash
+python __main__.py dirs ./list.txt
+```
+```python
+file = "./list.txt" # file 是要下载的bv号目录文件
+```
+
 ## Status quo
-* python 版本应不低于3.8（Bilili 库的要求）
-* 需要安装 ffmpeg 并加入 path
+* python 版本限制未知
+
 ## Issues
-* Linux 下 FFmpeg 缺少 mp3 编码器
-  * 可以依赖 libmp3lame 但会使使用成本上升不少
-* WIndows 下，安装合理的第三方编译版可以避开这个问题（大概）
-* requirement.txt 对依赖库的描述不准确
+* json解析在获取up主视频列表时会出现UnicodeDecodeError，原因未知
+* 暂时采用try-except跳过这一过程
 ## Licence
-Bilili 采用 GPLv3，ffmpy 采用 MIT  
-依照 GPLv3 的要求，本项目采用 GPLv3.
+* bilibiliaudioDownloader 的作者没有选取许可证，暂时选择 MIT License
