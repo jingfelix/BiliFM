@@ -105,7 +105,7 @@ if __name__ == "__main__":
 # TODO: 检查是否已经下载，若已下载则不重复下载 NO
 # TODO: 总下载时间的计数器 DONE
 # TODO: 完整注释
-# TODO: 针对下载的文件名进行适配操作系统的修改 DONE
+# TODO: 针对下载的文件名进行适配操作系统的修改 DONE 主要是适配 Windows
 # TODO: 按列表下载 DONE
 # TODO: 彩色字符输出
 # TODO: 音质选择
