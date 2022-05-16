@@ -62,7 +62,7 @@ def getAudio(item: list, dire: str) -> None:
     urllib.request.install_opener(opener)
     filename = os.path.join(dire, titleProcess(title)) + ".mp3"
 
-    print("/nCurrently downloading: ", title)
+    print("\nCurrently downloading: ", title)
 
     urllib.request.urlretrieve(url=audioUrl, filename=filename)
     ed = time.time()

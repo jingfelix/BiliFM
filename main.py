@@ -36,16 +36,13 @@ def uid(uid: str) -> None:
         try:
             json_uid = loads(urllib.request.urlopen(jsonUrl.format(uid, page)).read())
 
-            if json_uid["data"]["list"]["vlist"] == []:
-                if page == 1:
-                    return "uid 错误或该用户无投稿"
-                else:
-                    break
+            if json_uid["data"]["list"]["vlist"] == [] and page == 1:
+                return "uid 错误或该用户无投稿"
 
             for vinfo in json_uid["data"]["list"]["vlist"]:
                 downloadaudio.getAudio(downloadaudio.getInformation(vinfo["bvid"]), vd)
 
-            page += 1
+            page -= 1
 
         except UnicodeDecodeError:
             print("Download Complete!")
@@ -96,9 +93,14 @@ main.add_command(dirs)
 
 if __name__ == "__main__":
     st = time.time()
-    main()
+
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nKeyboard Interrupt")
+
     ed = time.time()
-    print("Download ALLFinish! Time consuming:", str(round(ed - st, 2)) + " seconds")
+    print("Download finish! Time consuming:", str(round(ed - st, 2)) + " seconds")
 
 
 # TODO: 修改min_page的逻辑使之能下载某up的全部视频 DONE
