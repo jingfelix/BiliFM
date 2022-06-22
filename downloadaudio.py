@@ -74,7 +74,6 @@ def titleProcess(title: str) -> str:
     """Process the title, avoiding unnormal naming on Windows."""
     replaceList = ["?", "\\", "*", "|", "<", ">", ":", "/", " "]
     for ch in title:
-        if ch in replaceList:
-            title = title.replace(ch, "-")
+        title = title.replace(ch, "-") if ch in replaceList else title
 
     return title

@@ -27,24 +27,23 @@ def uid(uid: str) -> None:
     config = loadConfig()
 
     vd = os.path.join(workingPath, config["directory"])
-    page = int(config["min-page"])  # define min page
+    max_page = int(config["max-page"])  # define min page
 
     if not os.path.isdir(vd):
         os.mkdir(vd)
 
-    while True:
+    for page in range(1, max_page+1):
         try:
             json_uid = loads(urllib.request.urlopen(jsonUrl.format(uid, page)).read())
 
             if json_uid["data"]["list"]["vlist"] == [] and page == 1:
                 return "uid 错误或该用户无投稿"
-
-            for vinfo in json_uid["data"]["list"]["vlist"]:
-                downloadaudio.getAudio(downloadaudio.getInformation(vinfo["bvid"]), vd)
-
-            page -= 1
+            
+            map(downloadaudio.getAudio(), json_uid["date"]["list"]["vlist"])
 
         except UnicodeDecodeError:
+            # 需要确定这里的具体错误类型和原因
+            # 似乎是读取空页面造成的，亦即下载完成
             print("Download Complete!")
             break
 
@@ -103,8 +102,8 @@ if __name__ == "__main__":
     print("Download finish! Time consuming:", str(round(ed - st, 2)) + " seconds")
 
 
-# TODO: 修改min_page的逻辑使之能下载某up的全部视频 DONE
-# TODO: 检查是否已经下载，若已下载则不重复下载 NO
+# TODO: 修改max_page的逻辑使之能下载某up的全部视频 DONE
+# TODO: 检查是否已经下载，若已下载则不重复下载 NOT YET
 # TODO: 总下载时间的计数器 DONE
 # TODO: 完整注释
 # TODO: 针对下载的文件名进行适配操作系统的修改 DONE 主要是适配 Windows

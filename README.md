@@ -7,6 +7,8 @@ An script to download all audios of the Bilibili uploader you love.
 
 ## Usage
 
+下载或clone本项目到本地，在该项目的主路径下执行命令
+
 使用实例：
 
 ### uid 模式
@@ -18,6 +20,10 @@ python main.py uid 261485584
 ```python
 uid = "261485584" # uid 为up主的uid
 ```
+
+> **Note**  
+> ```config.json```中的max-page参数表示最大下载页数（即UP主个人空间投稿页面的页数），当投稿数特别多时，max-page设置较大将下载可能超预期数量的音频；默认设置为5页
+
 
 ### bv 模式
 
