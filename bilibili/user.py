@@ -1,10 +1,10 @@
 import requests
 import typer
 
-class User:
 
-    uidUrl:str = "https://api.bilibili.com/x/space/arc/search"
-    videos:list = []
+class User:
+    uidUrl: str = "https://api.bilibili.com/x/space/arc/search"
+    videos: list = []
 
     def __init__(self, uid: str):
         headers = {
@@ -24,13 +24,7 @@ class User:
             "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
         }
 
-        params = {
-            "mid": uid,
-            "ps": 1,
-            "tid": 0,
-            "pn": 1,
-            "order": "pubdate"
-        }
+        params = {"mid": uid, "ps": 1, "tid": 0, "pn": 1, "order": "pubdate"}
 
         response = requests.get(self.uidUrl, params=params, headers=headers)
 
@@ -49,15 +43,8 @@ class User:
         for i in range(1, max_pn + 2):
             ps = 50 if i != max_pn + 1 else surpus
 
-            params = {
-                "mid": uid,
-                "ps": ps,
-                "tid": 0,
-                "pn": i,
-                "order": "pubdate"
-            }
+            params = {"mid": uid, "ps": ps, "tid": 0, "pn": i, "order": "pubdate"}
 
             response = requests.get(self.uidUrl, params=params, headers=headers)
 
             self.videos.extend(response.json()["data"]["list"]["vlist"])
-        

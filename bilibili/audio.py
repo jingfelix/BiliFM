@@ -32,9 +32,9 @@ class Audio:
             "cid": self.cid,
         }
 
-        self.baseUrl = requests.get(self.playUrl, params=params).json()["data"]["dash"]["audio"][0][
-            "baseUrl"
-        ]
+        self.baseUrl = requests.get(self.playUrl, params=params).json()["data"]["dash"][
+            "audio"
+        ][0]["baseUrl"]
 
     def download(self):
         headers = {
@@ -64,8 +64,14 @@ class Audio:
                         temp_size += len(chunk)
                         done = int(50 * temp_size / total_size)
                         sys.stdout.write(
-                            "\r[%s%s] %s/%s"
-                            % ("#" * done, "-" * (50 - done), temp_size, total_size)
+                            "\r[%s%s] %s/%s %s"
+                            % (
+                                "#" * done,
+                                "-" * (50 - done),
+                                temp_size,
+                                total_size,
+                                self.title,
+                            )
                         )
                         sys.stdout.flush()
 
@@ -76,10 +82,7 @@ class Audio:
         end_time = time.time()
 
         sys.stdout.write(
-            "\n"
-            + str(round(end_time - start_time, 2))
-            + " seconds download finish:"
-            + self.title
+            " " + str(round(end_time - start_time, 2)) + " seconds download finish\n"
         )
 
     def __get_cid_title(self, bvid: str, p: int = 1):
