@@ -5,6 +5,18 @@
 An script to download all audios of the Bilibili uploader you love.  
 下载指定up主全部或指定数量的视频音频，基于[bilibiliAudioDownloader](https://github.com/nuster1128/bilibiliAudioDownloader)制作，添加了指定up主和单个音频的功能，完善了命令行参数
 
+## Install
+
+```bash
+pip install BiliFM
+```
+
+或在本地使用并安装依赖
+
+```bash
+pip install -r requirements.txt
+```
+
 ## Usage
 
 使用实例：
@@ -12,7 +24,7 @@ An script to download all audios of the Bilibili uploader you love.
 ### uid 模式
 
 ```Bash
-python main.py uid 261485584
+bilifm uid 261485584
 ```
 
 ```python
@@ -22,21 +34,11 @@ uid = "261485584" # uid 为up主的uid
 ### bv 模式
 
 ```bash
-python main.py bv BV1k341187
+bilifm bv BV1k341187
 ```
 
 ```python
 bvid = "BV1k341187" # bvid 是要下载的音频的视频bv号
-```
-
-### list 模式
-
-```bash
-python main.py dirs ./list.txt
-```
-
-```python
-file = "./list.txt" # file 是要下载的bv号目录文件
 ```
 
 ## Status quo
