@@ -1,7 +1,7 @@
 import typer
 
-from bilibili.audio import Audio
-from bilibili.user import User
+from bilifm.audio import Audio
+from bilifm.user import User
 
 app = typer.Typer()
 
