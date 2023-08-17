@@ -1,4 +1,5 @@
 import sys
+import os
 import time
 
 import requests
@@ -55,6 +56,11 @@ class Audio:
             total_size = int(response.headers.get("content-length", 0))
             temp_size = 0
 
+            # 如果文件已存在，则跳过下载
+            if os.path.exists(self.title + ".mp3"):
+                typer.echo(f"{self.title} already exists, skip for now")
+                return
+
             with open(self.title + ".mp3", "wb") as f:
                 for chunk in response.iter_content(chunk_size=1024):
                     if chunk:
@@ -75,8 +81,9 @@ class Audio:
                         )
                         sys.stdout.flush()
 
-        except:
+        except Exception as e:
             typer.echo("Download failed")
+            typer.echo("Error: " + str(e))
             pass
 
         end_time = time.time()
