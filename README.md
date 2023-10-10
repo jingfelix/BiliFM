@@ -1,11 +1,15 @@
-# BiliFM
+# 📻 BiliFM: Best BiliBili Audio Downloader
+
+[![PyPI](https://img.shields.io/pypi/v/BiliFM?style=flat-square)](https://pypi.org/project/BiliFM/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/BiliFM?style=flat-square)](https://pypi.org/project/BiliFM/)
+[![PyPI - License](https://img.shields.io/pypi/l/BiliFM?style=flat-square)](https://github.com/jingfelix/BiliFM/blob/main/LICENSE)
 
 ## Intro
 
 An script to download all audios of the Bilibili uploader you love.  
 下载指定up主全部或指定数量的视频音频。
 
-- 基于 [bilibiliAudioDownloader](https://github.com/nuster1128/bilibiliAudioDownloader) 制作，添加了指定up主和单个音频的功能，完善了命令行参数。
+- ~~基于 [bilibiliAudioDownloader](https://github.com/nuster1128/bilibiliAudioDownloader) 制作，添加了指定up主和单个音频的功能，完善了命令行参数。~~
 
 - 新版本中已对代码进行了重构，不使用原 [bilibiliAudioDownloader](https://github.com/nuster1128/bilibiliAudioDownloader) 中的代码。保留原有功能的同时，方便适配新的API。
 
@@ -36,6 +40,10 @@ uid = "261485584" # uid 为up主的uid
 ```
 
 ### bv 模式
+
+> **Note**  
+bv 模式现已支持多 P 下载，使用方式和普通 bv 模式相同  
+同理，其他模式的下载也支持分 P 视频
 
 ```bash
 bilifm bv BV1k341187
