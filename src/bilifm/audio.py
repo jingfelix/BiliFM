@@ -8,10 +8,9 @@ import typer
 
 class Audio:
     bvid = ""
-    cid = ""
     title = ""
     playUrl = "http://api.bilibili.com/x/player/playurl"
-    baseUrl = ""
+    part_list = []
 
     def __init__(self, bvid: str) -> None:
         if bvid is None:
@@ -25,17 +24,8 @@ class Audio:
             self.__get_cid_title(bvid)
         else:
             # AV号
-            self.__get_cid_title(bvid[:12], int(bvid[13:]))
+            self.__get_cid_title(bvid[:12])
 
-        params = {
-            "fnval": 16,
-            "bvid": self.bvid,
-            "cid": self.cid,
-        }
-
-        self.baseUrl = requests.get(self.playUrl, params=params).json()["data"]["dash"][
-            "audio"
-        ][0]["baseUrl"]
 
     def download(self):
         headers = {
@@ -51,35 +41,46 @@ class Audio:
 
         start_time = time.time()
         try:
-            response = requests.get(url=self.baseUrl, headers=headers, stream=True)
+            for cid, part in zip(self.cid_list, self.part_list):
+                baseUrl = requests.get(
+                    self.playUrl,
+                    params={
+                        "fnval": 16,
+                        "bvid": self.bvid,
+                        "cid": cid,
+                    },
+                ).json()["data"]["dash"]["audio"][0]["baseUrl"]
 
-            total_size = int(response.headers.get("content-length", 0))
-            temp_size = 0
+                response = requests.get(url=baseUrl, headers=headers, stream=True)
 
-            # 如果文件已存在，则跳过下载
-            if os.path.exists(self.title + ".mp3"):
-                typer.echo(f"{self.title} already exists, skip for now")
-                return
+                total_size = int(response.headers.get("content-length", 0))
+                temp_size = 0
 
-            with open(self.title + ".mp3", "wb") as f:
-                for chunk in response.iter_content(chunk_size=1024):
-                    if chunk:
-                        f.write(chunk)
-                        f.flush()
+                # 如果文件已存在，则跳过下载
+                file_path = f"{self.title}-{part}.mp3"
+                if os.path.exists(file_path):
+                    typer.echo(f"{self.title} already exists, skip for now")
+                    return
 
-                        temp_size += len(chunk)
-                        done = int(50 * temp_size / total_size)
-                        sys.stdout.write(
-                            "\r[%s%s] %s/%s %s"
-                            % (
-                                "#" * done,
-                                "-" * (50 - done),
-                                temp_size,
-                                total_size,
-                                self.title,
+                with open(file_path, "wb") as f:
+                    for chunk in response.iter_content(chunk_size=1024):
+                        if chunk:
+                            f.write(chunk)
+                            f.flush()
+
+                            temp_size += len(chunk)
+                            done = int(50 * temp_size / total_size)
+                            sys.stdout.write(
+                                "\r[%s%s] %s/%s %s"
+                                % (
+                                    "#" * done,
+                                    "-" * (50 - done),
+                                    temp_size,
+                                    total_size,
+                                    self.title,
+                                )
                             )
-                        )
-                        sys.stdout.flush()
+                            sys.stdout.flush()
 
         except Exception as e:
             typer.echo("Download failed")
@@ -92,17 +93,18 @@ class Audio:
             " " + str(round(end_time - start_time, 2)) + " seconds download finish\n"
         )
 
-    def __get_cid_title(self, bvid: str, p: int = 1):
+    def __get_cid_title(self, bvid: str):
         url = "https://api.bilibili.com/x/web-interface/view?bvid={bvid}".format(
             bvid=bvid
         )
         try:
             response = requests.get(url)
             data = response.json().get("data")
-            self.title = data.get("title")
+            self.title = self.__title_process(data.get("title"))
 
             # 这里是否也应该也使用get方法？
-            self.cid = str(data["pages"][p - 1]["cid"])
+            self.cid_list = [str(page["cid"]) for page in data["pages"]]
+            self.part_list = [self.__title_process(str(page["part"])) for page in data["pages"]]
 
         except ValueError as e:
             raise e
@@ -110,6 +112,10 @@ class Audio:
         except Exception as e:
             raise e
 
+
+    def __title_process(self, title: str):
         replaceList = ["?", "\\", "*", "|", "<", ">", ":", "/", " "]
         for ch in replaceList:
-            self.title = self.title.replace(ch, "-")
+            title = title.replace(ch, "-")
+
+        return title

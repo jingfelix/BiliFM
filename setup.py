@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="bilifm",
-    version="0.1.6",
+    version="0.1.7",
     author="Felix Jing",
     author_email="jingfelix@outlook.com",
     description="Download Bilibili videos as audios.",
