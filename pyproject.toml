@@ -1,3 +1,37 @@
+[project]
+name = "bilifm"
+version = "0.1.8"
+description = "Download Bilibili videos as audios."
+authors = [
+    {name = "jingfelix", email = "jingfelix@outlook.com"},
+    {name = "Felix Jing", email = "jingfelix@outlook.com"},
+]
+dependencies = [
+    "click",
+    "requests",
+    "rich",
+    "typer",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "GPLv3"}
+classifiers = [
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+]
+
+[project.urls]
+Homepage = "https://github.com/jingfelix/bilifm"
+"Bug Tracker" = "https://github.com/jingfelix/bilifm/issues"
+
+[project.scripts]
+bilifm = "bilifm.__init__:app"
 [build-system]
-requires = ["setuptools>=42"]
-build-backend = "setuptools.build_meta"
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+
+[tool.pdm]
+package-type = "library"
+package-dir = "src"

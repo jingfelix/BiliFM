@@ -61,7 +61,7 @@ bilifm fav 69361944 cookies.json
 
 ```python
 media_id = "69361954" # media_id 是收藏夹的 media_id，注意不要和 uid 弄混
-cookies_path = "cookies.json" # cookies 为是保存 cookies 的文件路径，注意需要转换为 json
+cookies_path = "cookies.json" # cookies 是保存 cookies 的文件路径，注意需要转换为 json
 ```
 
 media_id 的获取：
@@ -70,9 +70,9 @@ media_id 的获取：
 
 cookies 的获取：
 
-在开发者工具的控制台中输入 `document.cookie`
+- 在开发者工具的控制台中输入 `document.cookie`
 
-cookies 转换为json：[在线 cookies 转换](https://uutool.cn/cookie2json/)
+- cookies 转换为json：[在线 cookies 转换](https://uutool.cn/cookie2json/)
 
 ## Features
 
