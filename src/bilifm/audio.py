@@ -1,5 +1,5 @@
-import sys
 import os
+import sys
 import time
 
 import requests
@@ -25,7 +25,6 @@ class Audio:
         else:
             # AV号
             self.__get_cid_title(bvid[:12])
-
 
     def download(self):
         headers = {
@@ -104,14 +103,15 @@ class Audio:
 
             # 这里是否也应该也使用get方法？
             self.cid_list = [str(page["cid"]) for page in data["pages"]]
-            self.part_list = [self.__title_process(str(page["part"])) for page in data["pages"]]
+            self.part_list = [
+                self.__title_process(str(page["part"])) for page in data["pages"]
+            ]
 
         except ValueError as e:
             raise e
 
         except Exception as e:
             raise e
-
 
     def __title_process(self, title: str):
         replaceList = ["?", "\\", "*", "|", "<", ">", ":", "/", " "]
