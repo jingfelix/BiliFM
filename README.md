@@ -3,6 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/BiliFM?style=flat-square)](https://pypi.org/project/BiliFM/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/BiliFM?style=flat-square)](https://pypi.org/project/BiliFM/)
 [![PyPI - License](https://img.shields.io/pypi/l/BiliFM?style=flat-square)](https://github.com/jingfelix/BiliFM/blob/main/LICENSE)
+[![pdm-managed](https://img.shields.io/badge/pdm-managed-blueviolet)](https://pdm-project.org)
 
 ## Intro
 
