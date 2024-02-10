@@ -49,10 +49,14 @@ class Audio:
             self.__get_cid_title(bvid[:12])
 
     def download(self):
-
         start_time = time.time()
         try:
             for cid, part in zip(self.cid_list, self.part_list):
+                # 如果文件已存在，则跳过下载
+                file_path = f"{self.title}-{part}.mp3"
+                if os.path.exists(file_path):
+                    typer.echo(f"{self.title} already exists, skip for now")
+                    return
 
                 params = get_signed_params(
                     {
@@ -71,12 +75,6 @@ class Audio:
 
                 total_size = int(response.headers.get("content-length", 0))
                 temp_size = 0
-
-                # 如果文件已存在，则跳过下载
-                file_path = f"{self.title}-{part}.mp3"
-                if os.path.exists(file_path):
-                    typer.echo(f"{self.title} already exists, skip for now")
-                    return
 
                 with open(file_path, "wb") as f:
                     for chunk in response.iter_content(chunk_size=1024):
