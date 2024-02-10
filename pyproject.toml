@@ -32,6 +32,7 @@ requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
 
+
 [tool.pdm]
-package-type = "library"
 package-dir = "src"
+distribution = true

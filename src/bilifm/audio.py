@@ -5,18 +5,40 @@ import time
 import requests
 import typer
 
+from bilifm.util import get_signed_params
+
 
 class Audio:
     bvid = ""
     title = ""
-    playUrl = "http://api.bilibili.com/x/player/playurl"
+    playUrl = "http://api.bilibili.com/x/player/wbi/playurl"
     part_list = []
+
+    headers = {}
 
     def __init__(self, bvid: str) -> None:
         if bvid is None:
             raise ValueError("bvid is None")
 
         self.bvid = bvid
+        self.headers = {
+            "authority": "api.bilibili.com",
+            "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+            "accept-language": "zh-CN,zh;q=0.9",
+            "cache-control": "no-cache",
+            "dnt": "1",
+            "pragma": "no-cache",
+            "sec-ch-ua": '"Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"',
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": '"macOS"',
+            "sec-fetch-dest": "document",
+            "sec-fetch-mode": "navigate",
+            "sec-fetch-site": "none",
+            "sec-fetch-user": "?1",
+            "upgrade-insecure-requests": "1",
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
+            "Referer": "https://www.bilibili.com/video/{bvid}".format(bvid=self.bvid),
+        }
 
         # 获取cid和title
         if len(bvid) == 12:
@@ -27,30 +49,25 @@ class Audio:
             self.__get_cid_title(bvid[:12])
 
     def download(self):
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:56.0) Gecko/20100101 Firefox/56.0",
-            "Accept": "*/*",
-            "Accept-Language": "en-US,en;q=0.5",
-            "Accept-Encoding": "gzip, deflate, br",
-            "Range": "bytes=0-",
-            "Origin": "https://www.bilibili.com",
-            "Connection": "keep-alive",
-            "Referer": "https://www.bilibili.com/video/{bvid}".format(bvid=self.bvid),
-        }
 
         start_time = time.time()
         try:
             for cid, part in zip(self.cid_list, self.part_list):
-                baseUrl = requests.get(
-                    self.playUrl,
-                    params={
+
+                params = get_signed_params(
+                    {
                         "fnval": 16,
                         "bvid": self.bvid,
                         "cid": cid,
-                    },
-                ).json()["data"]["dash"]["audio"][0]["baseUrl"]
+                    }
+                )
+                json = requests.get(
+                    self.playUrl, params=params, headers=self.headers
+                ).json()
 
-                response = requests.get(url=baseUrl, headers=headers, stream=True)
+                baseUrl = json["data"]["dash"]["audio"][0]["baseUrl"]
+
+                response = requests.get(url=baseUrl, headers=self.headers, stream=True)
 
                 total_size = int(response.headers.get("content-length", 0))
                 temp_size = 0
@@ -93,11 +110,15 @@ class Audio:
         )
 
     def __get_cid_title(self, bvid: str):
-        url = "https://api.bilibili.com/x/web-interface/view?bvid={bvid}".format(
-            bvid=bvid
-        )
+        url = "https://api.bilibili.com/x/web-interface/view"
+        params = {"bvid": bvid}
+
         try:
-            response = requests.get(url)
+            response = requests.get(
+                url=url,
+                params=params,
+                headers=self.headers,
+            )
             data = response.json().get("data")
             self.title = self.__title_process(data.get("title"))
 

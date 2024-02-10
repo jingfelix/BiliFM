@@ -137,3 +137,5 @@ temp/
 *.dll
 .vscode/
 .DS_Store
+
+.pdm-python
