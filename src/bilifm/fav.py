@@ -1,6 +1,6 @@
 import json
 
-import requests
+from bilifm.util import request
 
 
 class Fav:
@@ -27,7 +27,13 @@ class Fav:
         }
 
         try:
-            res = requests.get(self.fav_url, params=params, cookies=self.cookies)
+            res = request(
+                method="get",
+                url=self.fav_url,
+                params=params,
+                cookies=self.cookies,
+                wbi=False,
+            )
         except Exception as e:
             raise Exception("Error: " + str(e))
 

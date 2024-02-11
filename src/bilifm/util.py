@@ -1,3 +1,4 @@
+import random
 import time
 import urllib.parse
 from functools import reduce
@@ -5,7 +6,7 @@ from hashlib import md5
 
 import requests
 
-headers = {
+HEADERS = {
     "authority": "api.bilibili.com",
     "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
     "accept-language": "zh-CN,zh;q=0.9",
@@ -116,7 +117,7 @@ def encWbi(params: dict, img_key: str, sub_key: str):
 
 def getWbiKeys() -> tuple[str, str]:
     "获取最新的 img_key 和 sub_key"
-    resp = requests.get("https://api.bilibili.com/x/web-interface/nav", headers=headers)
+    resp = requests.get("https://api.bilibili.com/x/web-interface/nav", headers=HEADERS)
     resp.raise_for_status()
     json_content = resp.json()
     img_url: str = json_content["data"]["wbi_img"]["img_url"]
@@ -129,3 +130,41 @@ def getWbiKeys() -> tuple[str, str]:
 def get_signed_params(params: dict):
     img_key, sub_key = getWbiKeys()
     return encWbi(params, img_key, sub_key)
+
+
+def gen_dm_args(params: dict):
+    """reference: https://github.com/SocialSisterYi/bilibili-API-collect/issues/868"""
+
+    dm_rand = "ABCDEFGHIJK"
+    dm_img_list = "[]"
+    dm_img_str = "".join(random.sample(dm_rand, 2))
+    dm_cover_img_str = "".join(random.sample(dm_rand, 2))
+    dm_img_inter = '{"ds":[],"wh":[0,0,0],"of":[0,0,0]}'
+
+    params.update(
+        {
+            "dm_img_list": dm_img_list,
+            "dm_img_str": dm_img_str,
+            "dm_cover_img_str": dm_cover_img_str,
+            "dm_img_inter": dm_img_inter,
+        }
+    )
+
+    return params
+
+
+def request(
+    method: str,
+    url: str,
+    params: dict = None,
+    wbi: bool = False,
+    dm: bool = False,
+    headers: dict = HEADERS,
+    **kwargs,
+) -> requests.Response:
+    if dm and params is not None:
+        params = gen_dm_args(params)
+    if wbi and params is not None:
+        params = get_signed_params(params)
+
+    return requests.request(method, url, params=params, headers=headers, **kwargs)
