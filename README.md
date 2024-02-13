@@ -8,11 +8,13 @@
 ## Intro
 
 An script to download all audios of the Bilibili uploader you love.  
-下载指定up主全部或指定数量的视频音频。
+轻松下载指定up主全部或指定的视频音频。
 
 - ~~基于 [bilibiliAudioDownloader](https://github.com/nuster1128/bilibiliAudioDownloader) 制作，添加了指定up主和单个音频的功能，完善了命令行参数。~~
 
 - 新版本中已对代码进行了重构，不使用原 [bilibiliAudioDownloader](https://github.com/nuster1128/bilibiliAudioDownloader) 中的代码。保留原有功能的同时，方便适配新的API。
+
+- 参照 [bilibili-API-Collection](https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/misc/sign/wbi.md) 的文档修复了 412 报错问题。
 
 ## Install
 
@@ -61,7 +63,7 @@ bilifm fav 69361944 cookies.json
 ```
 
 ```python
-media_id = "69361954" # media_id 是收藏夹的 media_id，注意不要和 uid 弄混
+media_id = "69361954" # media_id 是收藏夹的 media_id，注意不要和 uid/fid 弄混
 cookies_path = "cookies.json" # cookies 是保存 cookies 的文件路径，注意需要转换为 json
 ```
 

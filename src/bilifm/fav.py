@@ -22,7 +22,7 @@ class Fav:
         # 获取 id list
 
         params = {
-            "media_id": media_id,
+            "media_id": media_id.replace("ml", ""),
             "platform": "web",
         }
 

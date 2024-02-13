@@ -31,6 +31,8 @@ class User:
 
             params = {"mid": uid, "ps": ps, "tid": 0, "pn": i, "order": "pubdate"}
 
-            response = request(method="get", url=self.uidUrl, params=params, wbi=True)
+            response = request(
+                method="get", url=self.uidUrl, params=params, wbi=True, dm=True
+            )
 
             self.videos.extend(response.json()["data"]["list"]["vlist"])
