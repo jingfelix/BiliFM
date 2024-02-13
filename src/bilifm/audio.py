@@ -54,9 +54,18 @@ class Audio:
             for cid, part in zip(self.cid_list, self.part_list):
                 # 如果文件已存在，则跳过下载
                 file_path = f"{self.title}-{part}.mp3"
-                if os.path.exists(file_path):
-                    typer.echo(f"{self.title} already exists, skip for now")
-                    return
+                try:
+                    if os.path.exists(file_path):
+                        typer.echo(f"{self.title} already exists, skip for now")
+                        return
+                except OSError as e:
+                    if e.errno == 36:
+                        file_path = f"{part}.mp3"
+                        if os.path.exists(file_path):
+                            typer.echo(f"{part} already exists, skip for now")
+                            return
+                    else:
+                        raise e
 
                 params = get_signed_params(
                     {
