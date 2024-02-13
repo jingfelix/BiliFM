@@ -52,20 +52,18 @@ class Audio:
         start_time = time.time()
         try:
             for cid, part in zip(self.cid_list, self.part_list):
+                if len(self.part_list) > 1:
+                    file_path = f"{self.title}-{part}.mp3"
+                else:
+                    file_path = f"{self.title}.mp3"
+
+                if len(file_path) > 255:
+                    file_path = file_path[:255]
+
                 # 如果文件已存在，则跳过下载
-                file_path = f"{self.title}-{part}.mp3"
-                try:
-                    if os.path.exists(file_path):
-                        typer.echo(f"{self.title} already exists, skip for now")
-                        return
-                except OSError as e:
-                    if e.errno == 36:
-                        file_path = f"{part}.mp3"
-                        if os.path.exists(file_path):
-                            typer.echo(f"{part} already exists, skip for now")
-                            return
-                    else:
-                        raise e
+                if os.path.exists(file_path):
+                    typer.echo(f"{self.title} already exists, skip for now")
+                    return
 
                 params = get_signed_params(
                     {
