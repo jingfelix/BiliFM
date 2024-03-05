@@ -114,3 +114,9 @@ def uid(uid: str):
 
 - ~~bilibiliaudioDownloader 的作者没有选取许可证，暂时选择 MIT License~~
 - bilibiliAudioDownloader 的作者已添加 GPL-3.0 License，故本项目亦修改为 GPL-3.0
+
+## Thanks
+
+感谢以下产品对 BiliFM 的赞助：
+
+![https://www.jetbrains.com](https://camo.githubusercontent.com/830c8bd550b48827eb78c6ce81a378aeed729d8db4a8bdd460ee500db7bda0d8/68747470733a2f2f7265736f75726365732e6a6574627261696e732e636f6d2f73746f726167652f70726f64756374732f636f6d70616e792f6272616e642f6c6f676f732f6a625f6265616d2e737667)
