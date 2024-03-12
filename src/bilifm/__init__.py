@@ -1,1 +1,1 @@
-from bilifm.command import app
+from .command import app

@@ -1,6 +1,6 @@
 import typer
 
-from bilifm.util import request
+from .util import request
 
 
 class User:
