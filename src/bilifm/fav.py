@@ -1,6 +1,6 @@
 import json
 
-from bilifm.util import request
+from .util import request
 
 
 class Fav:

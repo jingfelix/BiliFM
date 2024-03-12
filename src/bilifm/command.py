@@ -1,8 +1,8 @@
 import typer
 
-from bilifm.audio import Audio
-from bilifm.fav import Fav
-from bilifm.user import User
+from .audio import Audio
+from .fav import Fav
+from .user import User
 
 app = typer.Typer()
 

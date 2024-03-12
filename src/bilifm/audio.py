@@ -5,7 +5,7 @@ import time
 import requests
 import typer
 
-from bilifm.util import get_signed_params
+from .util import get_signed_params
 
 
 class Audio:
