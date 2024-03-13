@@ -58,6 +58,10 @@ def season(
     if directory:
         os.chdir(directory)
 
+    if not os.path.isdir(sea.name):
+        os.makedirs(sea.name)
+    os.chdir(sea.name)
+
     for id in sea.videos:
         audio = Audio(id)
         audio.download()
