@@ -35,7 +35,7 @@ class Season:
             typer.echo(f"Error: uid {self.uid} or sid {self.season_id} not found.")
             if res.get("message", None):
                 typer.echo(f"msg: {res['message']}")
-            return
+                return False
 
         self.total = res["data"]["meta"]["total"]
         self.name = res["data"]["meta"]["name"]
@@ -49,3 +49,5 @@ class Season:
             ).json()
             bvids = [d["bvid"] for d in res["data"]["archives"]]
             self.videos.extend(bvids)
+
+        return True
