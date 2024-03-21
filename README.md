@@ -7,7 +7,7 @@
 
 ## Intro
 
-An script to download all audios of the Bilibili uploader you love.  
+An script to download all audios of the Bilibili uploader you love.
 轻松下载指定up主全部或指定的视频音频。
 
 - ~~基于 [bilibiliAudioDownloader](https://github.com/nuster1128/bilibiliAudioDownloader) 制作，添加了指定up主和单个音频的功能，完善了命令行参数。~~
@@ -44,8 +44,8 @@ uid = "261485584" # uid 为up主的uid
 
 ### bv 模式
 
-> **Note**  
-bv 模式现已支持多 P 下载，使用方式和普通 bv 模式相同  
+> **Note**
+bv 模式现已支持多 P 下载，使用方式和普通 bv 模式相同
 同理，其他模式的下载也支持分 P 视频
 
 ```bash
@@ -76,6 +76,22 @@ cookies 的获取：
 - 在开发者工具的控制台中输入 `document.cookie`
 
 - cookies 转换为json：[在线 cookies 转换](https://uutool.cn/cookie2json/)
+
+### season 模式
+下载视频合集
+```bash
+bilifm season $uid $sid [OPTIONS]
+```
+- uid, sid 的获取:
+  打开视频合集网页, 从URL中获取
+
+  https://space.bilibili.com/23263470/channel/collectiondetail?sid=1855309
+
+  例如上面链接, uid为23263470, sid为1855309. (目前uid可以随意填写)
+- Options:
+  - -o, --directory 选择音频保存地址
+
+
 
 ## Features
 
