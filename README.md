@@ -7,7 +7,7 @@
 
 ## Intro
 
-An script to download all audios of the Bilibili uploader you love.
+An script to download all audios of the Bilibili uploader you love.  
 轻松下载指定up主全部或指定的视频音频。
 
 - ~~基于 [bilibiliAudioDownloader](https://github.com/nuster1128/bilibiliAudioDownloader) 制作，添加了指定up主和单个音频的功能，完善了命令行参数。~~
@@ -44,8 +44,8 @@ uid = "261485584" # uid 为up主的uid
 
 ### bv 模式
 
-> **Note**
-bv 模式现已支持多 P 下载，使用方式和普通 bv 模式相同
+> **Note**  
+bv 模式现已支持多 P 下载，使用方式和普通 bv 模式相同  
 同理，其他模式的下载也支持分 P 视频
 
 ```bash
