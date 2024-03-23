@@ -1,24 +1,24 @@
 import os
 
 import typer
-from typing_extensions import Annotated
 
 from .audio import Audio
 from .fav import Fav
 from .season import Season
 from .user import User
+from .util import Directory, Path
 
 app = typer.Typer()
 
 
 @app.command()
-def bv(bv: str):
+def bv(bv: str, directory: Directory = None):
     audio = Audio(bv)
     audio.download()
 
 
 @app.command()
-def uid(uid: str):
+def uid(uid: str, directory: Directory = None):
     user = User(uid)
 
     for video in user.videos:
@@ -30,7 +30,11 @@ def uid(uid: str):
 
 
 @app.command()
-def fav(media_id: str, cookies_path: str):
+def fav(
+    media_id: str,
+    cookies_path: str = Path,
+    directory: Directory = None,
+):
     with open(cookies_path, "r") as f:
         cookies = f.read()
 
@@ -44,19 +48,12 @@ def fav(media_id: str, cookies_path: str):
 
 
 @app.command()
-def season(
-    uid: str,
-    sid: str,
-    directory: Annotated[str, typer.Option("-o", "--directory")] = "",
-):
+def season(uid: str, sid: str, directory: Directory = None):
     sea = Season(uid, sid)
     ret = sea.get_videos()
     if not ret:
         typer.Exit(1)
         return
-
-    if directory:
-        os.chdir(directory)
 
     if not os.path.isdir(sea.name):
         os.makedirs(sea.name)

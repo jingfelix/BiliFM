@@ -1,3 +1,4 @@
+import os
 import random
 import time
 import urllib.parse
@@ -5,6 +6,8 @@ from functools import reduce
 from hashlib import md5
 
 import requests
+import typer
+from typing_extensions import Annotated
 
 HEADERS = {
     "authority": "api.bilibili.com",
@@ -168,3 +171,24 @@ def request(
         params = get_signed_params(params)
 
     return requests.request(method, url, params=params, headers=headers, **kwargs)
+
+
+def change_directory(directory: str):
+    if directory:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+        if not os.path.isdir(directory):
+            raise typer.BadParameter(f"{directory} is not a directory")
+
+        os.chdir(directory)
+
+
+def check_path(path: str):
+    if not os.path.exists(path):
+        raise typer.BadParameter(f"{path} does not exist")
+    return path
+
+
+Directory = Annotated[str, typer.Option("-o", "--directory", callback=change_directory)]
+Path = typer.Argument(callback=check_path)
