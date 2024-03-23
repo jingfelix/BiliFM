@@ -75,19 +75,22 @@ cookies 的获取：
 
 - 在开发者工具的控制台中输入 `document.cookie`
 
-- cookies 转换为json：[在线 cookies 转换](https://uutool.cn/cookie2json/)
+- cookies 转换为 json：[在线 cookies 转换](https://uutool.cn/cookie2json/)
 
 ### season 模式
+
 下载视频合集
+
 ```bash
 bilifm season $uid $sid [OPTIONS]
 ```
+
 - uid, sid 的获取:
-  打开视频合集网页, 从URL中获取
+  打开视频合集网页, 从 URL 中获取
 
   https://space.bilibili.com/23263470/channel/collectiondetail?sid=1855309
 
-  例如上面链接, uid为23263470, sid为1855309. (目前uid可以随意填写)
+  例如上面链接, uid 为 23263470, sid 为 1855309 (目前 uid 可以随意填写)
 - Options:
   - -o, --directory 选择音频保存地址
 
@@ -121,7 +124,7 @@ def uid(uid: str):
 
 ## Issues
 
-- 获取up主视频列表时会出现 UnicodeDecodeError，~~原因未知~~
+- 获取 UP 主视频列表时会出现 UnicodeDecodeError，~~原因未知~~
   - 初步判断是网络不稳定所致，在稳定的网络环境下没有出现此问题
   - 暂时采用 try-except 跳过这一过程
 - 在使用前需关闭代理
