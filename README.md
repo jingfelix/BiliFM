@@ -77,6 +77,22 @@ cookies 的获取：
 
 - cookies 转换为json：[在线 cookies 转换](https://uutool.cn/cookie2json/)
 
+### season 模式
+下载视频合集
+```bash
+bilifm season $uid $sid [OPTIONS]
+```
+- uid, sid 的获取:
+  打开视频合集网页, 从URL中获取
+
+  https://space.bilibili.com/23263470/channel/collectiondetail?sid=1855309
+
+  例如上面链接, uid为23263470, sid为1855309. (目前uid可以随意填写)
+- Options:
+  - -o, --directory 选择音频保存地址
+
+
+
 ## Features
 
 - ~~python 版本限制未知~~
