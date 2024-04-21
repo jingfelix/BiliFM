@@ -94,7 +94,19 @@ bilifm season $uid $sid [OPTIONS]
 - Options:
   - -o, --directory 选择音频保存地址
 
+### series 模式
+```bash
+bilifm season $uid $sid [OPTIONS]
+```
+- uid, sid 的获取:
+  打开用户空间中的合集和列表, 找到列表点击更多, 然后从URL中获取
 
+https://space.bilibili.com/488978908/channel/seriesdetail?sid=888434&ctype=0
+
+例如上面链接, uid为488978908, sid为888434. 使用下面命令
+```bash
+bilifm series 488978908 888434
+```
 
 ## Features
 

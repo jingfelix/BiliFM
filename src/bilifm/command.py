@@ -5,6 +5,7 @@ import typer
 from .audio import Audio
 from .fav import Fav
 from .season import Season
+from .series import Series
 from .user import User
 from .util import Directory, Path
 
@@ -60,6 +61,24 @@ def season(uid: str, sid: str, directory: Directory = None):
     os.chdir(sea.name)
 
     for id in sea.videos:
+        audio = Audio(id)
+        audio.download()
+    typer.echo("Download complete")
+
+
+@app.command()
+def series(uid: str, sid: str, directory: Directory = None):
+    """download bilibili video series
+    because the api of series lacks the series name, executing
+    this command will not create a folder for the series
+    """
+    ser = Series(uid, sid)
+    ret = ser.get_videos()
+    if not ret:
+        typer.Exit(1)
+        return
+
+    for id in ser.videos:
         audio = Audio(id)
         audio.download()
     typer.echo("Download complete")
