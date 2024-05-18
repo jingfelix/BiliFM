@@ -2,6 +2,7 @@ import os
 import random
 import time
 import urllib.parse
+from enum import Enum
 from functools import reduce
 from hashlib import md5
 from typing import Callable
@@ -95,6 +96,18 @@ mixinKeyEncTab = [
     44,
     52,
 ]
+
+class AudioQualityEnums(str, Enum):
+    k64 = "64"
+    k132 = "132"
+    k192 = "192"
+
+
+audio_quality_map = {
+    "64": 30216,
+    "132": 30232,
+    "192": 30280,
+}
 
 
 def getMixinKey(orig: str):
@@ -214,3 +227,7 @@ class Retry:
             return None
 
         return wrapped_request
+
+AudioQuality = Annotated[
+    AudioQualityEnums, typer.Option("--quality", "-q", help="audio quality",
+                                    case_sensitive=False)]
