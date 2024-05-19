@@ -97,6 +97,7 @@ mixinKeyEncTab = [
     52,
 ]
 
+
 class AudioQualityEnums(str, Enum):
     k64 = "64"
     k132 = "132"
@@ -229,5 +230,6 @@ class Retry:
         return wrapped_request
 
 AudioQuality = Annotated[
-    AudioQualityEnums, typer.Option("--quality", "-q", help="audio quality",
-                                    case_sensitive=False)]
+    AudioQualityEnums,
+    typer.Option("--quality", "-q", help="audio quality", case_sensitive=False),
+]

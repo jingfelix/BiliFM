@@ -7,19 +7,27 @@ from .fav import Fav
 from .season import Season
 from .series import Series
 from .user import User
-from .util import Directory, Path, AudioQuality, AudioQualityEnums
+from .util import AudioQuality, AudioQualityEnums, Directory, Path
 
 app = typer.Typer()
 
 
 @app.command()
-def bv(bv: str, directory: Directory = None, audio_quality: AudioQuality = AudioQualityEnums.k64):
+def bv(
+    bv: str,
+    directory: Directory = None,
+    audio_quality: AudioQuality = AudioQualityEnums.k64,
+):
     audio = Audio(bv, audio_quality)
     audio.download()
 
 
 @app.command()
-def uid(uid: str, directory: Directory = None, audio_quality: AudioQuality = AudioQualityEnums.k64):
+def uid(
+    uid: str,
+    directory: Directory = None,
+    audio_quality: AudioQuality = AudioQualityEnums.k64,
+):
     user = User(uid)
 
     for video in user.videos:
@@ -35,7 +43,7 @@ def fav(
     media_id: str,
     cookies_path: str = Path,
     directory: Directory = None,
-    audio_quality: AudioQuality = AudioQualityEnums.k64
+    audio_quality: AudioQuality = AudioQualityEnums.k64,
 ):
     with open(cookies_path, "r") as f:
         cookies = f.read()
@@ -50,7 +58,12 @@ def fav(
 
 
 @app.command()
-def season(uid: str, sid: str, directory: Directory = None, audio_quality: AudioQuality = AudioQualityEnums.k64):
+def season(
+    uid: str,
+    sid: str,
+    directory: Directory = None,
+    audio_quality: AudioQuality = AudioQualityEnums.k64,
+):
     sea = Season(uid, sid)
     audio_generator = sea.get_videos()
     if not audio_generator:

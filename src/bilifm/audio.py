@@ -5,7 +5,7 @@ import time
 import requests
 import typer
 
-from .util import get_signed_params, AudioQualityEnums, audio_quality_map
+from .util import AudioQualityEnums, audio_quality_map, get_signed_params
 
 
 class Audio:
@@ -79,12 +79,16 @@ class Audio:
                 ).json()
 
                 if json["data"] is None:
-                    typer.echo(f" `data` field is not valid with url: {self.playUrl} and params : {params}")
+                    typer.echo(
+                        f" `data` field is not valid with url: {self.playUrl} and params : {params}"
+                    )
                     return
 
                 audio = json["data"]["dash"]["audio"]
                 if not audio:
-                    typer.echo(f" `audio` field is empty with url: {self.playUrl} and params : {params}")
+                    typer.echo(
+                        f" `audio` field is empty with url: {self.playUrl} and params : {params}"
+                    )
                     return
 
                 base_url = None
