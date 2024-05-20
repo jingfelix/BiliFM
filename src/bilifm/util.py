@@ -4,6 +4,7 @@ import time
 import urllib.parse
 from functools import reduce
 from hashlib import md5
+from typing import Callable
 
 import requests
 import typer
@@ -192,3 +193,24 @@ def check_path(path: str):
 
 Directory = Annotated[str, typer.Option("-o", "--directory", callback=change_directory)]
 Path = typer.Argument(callback=check_path)
+
+
+class Retry:
+    """Retry decorator"""
+
+    def __init__(self, response_succeed, handle_error_response, total=3) -> None:
+        self.total = total
+        self.__response_succeed = response_succeed
+        self.__handle_error_response = handle_error_response
+        pass
+
+    def __call__(self, request_func: Callable) -> Callable:
+        def wrapped_request(*args, **kwargs):
+            for _ in range(self.total):
+                res = request_func(*args, **kwargs)
+                if self.__response_succeed(res):
+                    return res
+            self.__handle_error_response(res)
+            return None
+
+        return wrapped_request

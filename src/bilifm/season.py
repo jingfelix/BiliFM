@@ -2,7 +2,7 @@
 
 import typer
 
-from .util import request
+from .util import request, Retry
 
 headers: dict[str, str] = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
@@ -32,16 +32,12 @@ class Season:
             "page_size": self.page_size,
         }
 
+        @Retry(self.__response_succeed, self.__handle_error_response)
         def wrapped_request():
             """wrap request with retry"""
-            for _ in range(self.retry):
-                res = request(
-                    method="get", url=self.season_url, params=params, headers=headers
-                ).json()
-                if self.__response_succeed(res):
-                    return res
-            self.__handle_error_response(res)
-            return None
+            return request(
+                method="get", url=self.season_url, params=params, headers=headers
+            ).json()
 
         res = wrapped_request()
         if res is None:
