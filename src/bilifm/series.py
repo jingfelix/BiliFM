@@ -17,6 +17,7 @@ class Series:
         self.total = 0
 
     def get_videos(self):
+        """return a generator that contain page_size videos"""
         params = {
             "mid": self.uid,
             "series_id": self.series_id,
@@ -32,22 +33,24 @@ class Series:
 
         res = wrapped_request()
         if res is None:
-            return False
+            return 0
 
         self.total = res["data"]["page"]["total"]
 
-        for i in range(1, self.total // self.page_size + 2):
-            params["pn"] = i
-            res = wrapped_request()
-            if res:
-                bvids = [ar["bvid"] for ar in res["data"]["archives"]]
-                self.videos.extend(bvids)
-            else:
-                typer.echo(
-                    f"skip audios from {(i-1)* self.page_size} to {i * self.page_size}"
-                )
+        def bvid_generator():
+            for i in range(1, self.total // self.page_size + 2):
+                params["pn"] = i
+                res = wrapped_request()
+                if res:
+                    bvids = [ar["bvid"] for ar in res["data"]["archives"]]
+                    # self.videos.extend(bvids)
+                    yield bvids
+                else:
+                    typer.echo(
+                        f"skip audios from {(i-1)* self.page_size} to {i * self.page_size}"
+                    )
 
-        return True
+        return bvid_generator()
 
     def __handle_error_response(self, response):
         try:

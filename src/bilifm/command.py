@@ -51,8 +51,8 @@ def fav(
 @app.command()
 def season(uid: str, sid: str, directory: Directory = None):
     sea = Season(uid, sid)
-    ret = sea.get_videos()
-    if not ret:
+    audio_generator = sea.get_videos()
+    if not audio_generator:
         typer.Exit(1)
         return
 
@@ -60,9 +60,10 @@ def season(uid: str, sid: str, directory: Directory = None):
         os.makedirs(sea.name)
     os.chdir(sea.name)
 
-    for id in sea.videos:
-        audio = Audio(id)
-        audio.download()
+    for audios in audio_generator:
+        for id in audios:
+            audio = Audio(id)
+            audio.download()
     typer.echo("Download complete")
 
 
@@ -73,12 +74,13 @@ def series(uid: str, sid: str, directory: Directory = None):
     this command will not create a folder for the series
     """
     ser = Series(uid, sid)
-    ret = ser.get_videos()
-    if not ret:
+    audio_generator = ser.get_videos()
+    if not audio_generator:
         typer.Exit(1)
         return
 
-    for id in ser.videos:
-        audio = Audio(id)
-        audio.download()
+    for audios in audio_generator:
+        for id in audios:
+            audio = Audio(id)
+            audio.download()
     typer.echo("Download complete")

@@ -2,7 +2,7 @@
 
 import typer
 
-from .util import request, Retry
+from .util import Retry, request
 
 headers: dict[str, str] = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
@@ -46,18 +46,21 @@ class Season:
         self.total = res["data"]["meta"]["total"]
         self.name = res["data"]["meta"]["name"]
 
-        max_pn = self.total // self.page_size
-        for i in range(1, max_pn + 2):
-            params["page_num"] = i
-            res = wrapped_request()
-            if res:
-                bvids = [d["bvid"] for d in res["data"]["archives"]]
-                self.videos.extend(bvids)
-            else:
-                typer.echo(
-                    f"skip audios from {(i-1)* self.page_size} to {i * self.page_size}"
-                )
-        return True
+        def bvid_generator():
+            max_pn = self.total // self.page_size
+            for i in range(1, max_pn + 2):
+                params["page_num"] = i
+                res = wrapped_request()
+                if res:
+                    bvids = [d["bvid"] for d in res["data"]["archives"]]
+                    # self.videos.extend(bvids)
+                    yield bvids
+                else:
+                    typer.echo(
+                        f"skip audios from {(i-1)* self.page_size} to {i * self.page_size}"
+                    )
+
+        return bvid_generator()
 
     def __handle_error_response(self, response):
         code = response.get("code", -404)
