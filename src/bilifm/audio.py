@@ -5,7 +5,7 @@ import time
 import requests
 import typer
 
-from .util import AudioQualityEnums, audio_quality_map, get_signed_params
+from .util import AudioQualityEnums, get_signed_params
 
 
 class Audio:
@@ -40,7 +40,7 @@ class Audio:
             "Referer": "https://www.bilibili.com/video/{bvid}".format(bvid=self.bvid),
         }
 
-        self.audio_quality = audio_quality_map[audio_quality.value]
+        self.audio_quality = audio_quality.quality_id
 
         # 获取cid和title
         if len(bvid) == 12:
