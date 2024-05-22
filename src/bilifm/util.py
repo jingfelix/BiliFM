@@ -98,17 +98,22 @@ mixinKeyEncTab = [
 ]
 
 
-class AudioQualityEnums(str, Enum):
-    k64 = "64"
-    k132 = "132"
-    k192 = "192"
-
-
+# 音质映射到具体值
 audio_quality_map = {
     "64": 30216,
     "132": 30232,
     "192": 30280,
 }
+
+
+class AudioQualityEnums(str, Enum):
+    k64 = "64"
+    k132 = "132"
+    k192 = "192"
+
+    @property
+    def quality_id(self):
+        return audio_quality_map[self._value_]
 
 
 def getMixinKey(orig: str):
