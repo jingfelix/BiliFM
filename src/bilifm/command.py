@@ -16,7 +16,7 @@ app = typer.Typer()
 def bv(
     bv: str,
     directory: Directory = None,
-    audio_quality: AudioQuality = AudioQualityEnums.k192,
+    audio_quality: AudioQuality = AudioQualityEnums.k192.value,
 ):
     audio = Audio(bv, audio_quality)
     audio.download()
@@ -26,7 +26,7 @@ def bv(
 def uid(
     uid: str,
     directory: Directory = None,
-    audio_quality: AudioQuality = AudioQualityEnums.k192,
+    audio_quality: AudioQuality = AudioQualityEnums.k192.value,
 ):
     user = User(uid)
 
@@ -43,7 +43,7 @@ def fav(
     media_id: str,
     cookies_path: str = Path,
     directory: Directory = None,
-    audio_quality: AudioQuality = AudioQualityEnums.k192,
+    audio_quality: AudioQuality = AudioQualityEnums.k192.value,
 ):
     with open(cookies_path, "r") as f:
         cookies = f.read()
@@ -62,7 +62,7 @@ def season(
     uid: str,
     sid: str,
     directory: Directory = None,
-    audio_quality: AudioQuality = AudioQualityEnums.k192,
+    audio_quality: AudioQuality = AudioQualityEnums.k192.value,
 ):
     sea = Season(uid, sid)
     audio_generator = sea.get_videos()
