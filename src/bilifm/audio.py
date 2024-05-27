@@ -5,7 +5,7 @@ import time
 import requests
 import typer
 
-from .util import get_signed_params
+from .util import AudioQualityEnums, get_signed_params
 
 
 class Audio:
@@ -16,7 +16,7 @@ class Audio:
 
     headers = {}
 
-    def __init__(self, bvid: str) -> None:
+    def __init__(self, bvid: str, audio_quality: AudioQualityEnums) -> None:
         if bvid is None:
             raise ValueError("bvid is None")
 
@@ -39,6 +39,8 @@ class Audio:
             "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
             "Referer": "https://www.bilibili.com/video/{bvid}".format(bvid=self.bvid),
         }
+
+        self.audio_quality = audio_quality.quality_id
 
         # 获取cid和title
         if len(bvid) == 12:
@@ -76,9 +78,29 @@ class Audio:
                     self.playUrl, params=params, headers=self.headers
                 ).json()
 
-                baseUrl = json["data"]["dash"]["audio"][0]["baseUrl"]
+                if json["data"] is None:
+                    typer.echo(
+                        f" `data` field is not valid with url: {self.playUrl} and params : {params}"
+                    )
+                    return
 
-                response = requests.get(url=baseUrl, headers=self.headers, stream=True)
+                audio = json["data"]["dash"]["audio"]
+                if not audio:
+                    typer.echo(
+                        f" `audio` field is empty with url: {self.playUrl} and params : {params}"
+                    )
+                    return
+
+                base_url = None
+                for au in audio:
+                    if au["id"] == self.audio_quality:
+                        base_url = au["baseUrl"]
+
+                # no audio url corresponding to current audio quality
+                if base_url is None:
+                    base_url = audio[0]["baseUrl"]
+
+                response = requests.get(url=base_url, headers=self.headers, stream=True)
 
                 total_size = int(response.headers.get("content-length", 0))
                 temp_size = 0

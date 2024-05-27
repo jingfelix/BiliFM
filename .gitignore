@@ -139,3 +139,5 @@ temp/
 .DS_Store
 
 .pdm-python
+
+.idea/
