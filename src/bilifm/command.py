@@ -69,8 +69,9 @@ def season(uid: str, sid: str, directory: Directory = None):
 
 @app.command()
 def series(uid: str, sid: str, directory: Directory = None):
-    """download bilibili video series
-    because the api of series lacks the series name, executing
+    """Download bilibili video series
+
+    The api of series lacks the series name, executing
     this command will not create a folder for the series
     """
     ser = Series(uid, sid)
