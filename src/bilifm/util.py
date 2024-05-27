@@ -234,6 +234,7 @@ class Retry:
 
         return wrapped_request
 
+
 AudioQuality = Annotated[
     AudioQualityEnums,
     typer.Option("--quality", "-q", help="audio quality", case_sensitive=False),

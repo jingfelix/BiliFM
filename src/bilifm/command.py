@@ -82,7 +82,12 @@ def season(
 
 
 @app.command()
-def series(uid: str, sid: str, directory: Directory = None, audio_quality: AudioQuality = AudioQualityEnums.k64):
+def series(
+    uid: str,
+    sid: str,
+    directory: Directory = None,
+    audio_quality: AudioQuality = AudioQualityEnums.k64,
+):
     """Download bilibili video series
 
     The api of series lacks the series name, executing
