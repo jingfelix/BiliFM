@@ -2,6 +2,7 @@ import os
 
 import typer
 
+from .__version__ import __version__
 from .audio import Audio
 from .fav import Fav
 from .season import Season
@@ -10,6 +11,17 @@ from .user import User
 from .util import AudioQuality, AudioQualityEnums, Directory, Path
 
 app = typer.Typer()
+
+
+@app.callback(invoke_without_command=True)
+def callback(version: bool = False):
+    """
+    Entry for public options
+    """
+
+    if version:
+        typer.echo(f"ppatch, version {__version__}")
+        raise typer.Exit()
 
 
 @app.command()
