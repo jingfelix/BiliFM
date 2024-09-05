@@ -50,7 +50,7 @@ class Audio:
             # BV号
             self.__get_cid_title(bvid)
         else:
-            # AV号
+            # AnotherV号
             self.__get_cid_title(bvid[:12])
 
     def download(self):

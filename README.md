@@ -3,7 +3,8 @@
 [![PyPI](https://img.shields.io/pypi/v/BiliFM?style=flat-square)](https://pypi.org/project/BiliFM/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/BiliFM?style=flat-square)](https://pypi.org/project/BiliFM/)
 [![PyPI - License](https://img.shields.io/pypi/l/BiliFM?style=flat-square)](https://github.com/jingfelix/BiliFM/blob/main/LICENSE)
-[![pdm-managed](https://img.shields.io/badge/pdm-managed-blueviolet)](https://pdm-project.org)
+[![PDM-managed](https://img.shields.io/badge/PDM-managed-blueviolet)](https://pdm-project.org)
+[![GitCode-managed](https://img.shields.io/badge/GitCode-hosted-red)](https://gitcode.com/jingfelix/BiliFM)
 
 ## Intro
 
@@ -39,7 +40,7 @@ bilifm uid 261485584
 ```
 
 ```python
-uid = "261485584" # uid 为up主的uid
+uid = "261485584" # uid 为 UP 主的 uid
 ```
 
 ### bv 模式
@@ -53,7 +54,7 @@ bilifm bv BV1k341187
 ```
 
 ```python
-bvid = "BV1k341187" # bvid 是要下载的音频的视频bv号
+bvid = "BV1k341187" # bvid 是要下载的音频的视频 bv 号
 ```
 
 ### fav 模式
@@ -163,4 +164,4 @@ def uid(uid: str):
 
 感谢以下产品对 BiliFM 的赞助：
 
-![https://www.jetbrains.com](https://camo.githubusercontent.com/830c8bd550b48827eb78c6ce81a378aeed729d8db4a8bdd460ee500db7bda0d8/68747470733a2f2f7265736f75726365732e6a6574627261696e732e636f6d2f73746f726167652f70726f64756374732f636f6d70616e792f6272616e642f6c6f676f732f6a625f6265616d2e737667)
+<a src="https://www.jetbrains.com/"><img width="70%" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.png" alt="JetBrains Logo" /></a>
