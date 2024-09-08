@@ -7,12 +7,12 @@
   <a href="https://github.com/jingfelix/BiliFM/blob/main/LICENSE"><img src="https://img.shields.io/pypi/l/BiliFM?style=flat-square" alt="PyPI - License"></a>
   <a href="https://pdm-project.org"><img src="https://img.shields.io/badge/PDM-managed-blueviolet" alt="PDM-managed"></a>
   <a href="https://gitcode.com/jingfelix/BiliFM"><img src="https://img.shields.io/badge/GitCode-hosted-red" alt="GitCode-managed"></a>
-  <div>Best BiliBili Audio Downloader</div>
+  <div>📻 Best BiliBili Audio Downloader</div>
 </div>
 
 <!-- # 📻 BiliFM: Best BiliBili Audio Downloader -->
 
-## Intro
+## 👋 Intro
 
 An script to download all audios of the Bilibili uploader you love.  
 轻松下载指定up主全部或指定的视频音频。
@@ -23,7 +23,7 @@ An script to download all audios of the Bilibili uploader you love.
 
 - 参照 [bilibili-API-Collection](https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/misc/sign/wbi.md) 的文档修复了 412 报错问题。
 
-## Install
+## 📦 Install
 
 ```bash
 pip install BiliFM --upgrade
@@ -35,7 +35,7 @@ pip install BiliFM --upgrade
 pip install -r requirements.txt
 ```
 
-## Usage
+## 🔨 Usage
 
 使用实例：
 
@@ -128,7 +128,7 @@ bilifm series 488978908 888434
 - Options:
   - -o, --directory 选择音频保存地址
 
-## Features
+## 📅 Features
 
 - ~~python 版本限制未知~~
   - 在函数定义时使用了类型注解，故不建议使用 3.5 以下版本
@@ -154,19 +154,19 @@ def uid(uid: str):
     typer.echo("Download complete")
 ```
 
-## Issues
+## ⚠️ Issues
 
 - 获取 UP 主视频列表时会出现 UnicodeDecodeError，~~原因未知~~
   - 初步判断是网络不稳定所致，在稳定的网络环境下没有出现此问题
   - 暂时采用 try-except 跳过这一过程
 - 在使用前需关闭代理
 
-## Licence
+## 🔖 Licence
 
 - ~~bilibiliaudioDownloader 的作者没有选取许可证，暂时选择 MIT License~~
 - bilibiliAudioDownloader 的作者已添加 GPL-3.0 License，故本项目亦修改为 GPL-3.0
 
-## Thanks
+## 🙏 Thanks
 
 感谢以下产品对 BiliFM 的赞助：
 
