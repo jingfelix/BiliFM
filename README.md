@@ -1,10 +1,16 @@
-# 📻 BiliFM: Best BiliBili Audio Downloader
 
-[![PyPI](https://img.shields.io/pypi/v/BiliFM?style=flat-square)](https://pypi.org/project/BiliFM/)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/BiliFM?style=flat-square)](https://pypi.org/project/BiliFM/)
-[![PyPI - License](https://img.shields.io/pypi/l/BiliFM?style=flat-square)](https://github.com/jingfelix/BiliFM/blob/main/LICENSE)
-[![PDM-managed](https://img.shields.io/badge/PDM-managed-blueviolet)](https://pdm-project.org)
-[![GitCode-managed](https://img.shields.io/badge/GitCode-hosted-red)](https://gitcode.com/jingfelix/BiliFM)
+<div align="center">
+  <img src="assets/BiliFM Logo.svg" alt="BiliFM Logo" width="70%" />
+  <h1>BiliFM</h1>
+  <a href="https://pypi.org/project/BiliFM/"><img src="https://img.shields.io/pypi/v/BiliFM?style=flat-square" alt="PyPI"></a>
+  <a href="https://pypi.org/project/BiliFM/"><img src="https://img.shields.io/pypi/pyversions/BiliFM?style=flat-square" alt="PyPI - Python Version"></a>
+  <a href="https://github.com/jingfelix/BiliFM/blob/main/LICENSE"><img src="https://img.shields.io/pypi/l/BiliFM?style=flat-square" alt="PyPI - License"></a>
+  <a href="https://pdm-project.org"><img src="https://img.shields.io/badge/PDM-managed-blueviolet" alt="PDM-managed"></a>
+  <a href="https://gitcode.com/jingfelix/BiliFM"><img src="https://img.shields.io/badge/GitCode-hosted-red" alt="GitCode-managed"></a>
+  <div>Best BiliBili Audio Downloader</div>
+</div>
+
+<!-- # 📻 BiliFM: Best BiliBili Audio Downloader -->
 
 ## Intro
 
