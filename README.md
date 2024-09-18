@@ -1,6 +1,6 @@
 
 <div align="center">
-  <img src="assets/BiliFM Logo.svg" alt="BiliFM Logo" width="70%" />
+  <img src="./assets/BiliFM Logo.svg" alt="BiliFM Logo" width="70%" />
   <h1>BiliFM</h1>
   <a href="https://pypi.org/project/BiliFM/"><img src="https://img.shields.io/pypi/v/BiliFM?style=flat-square" alt="PyPI"></a>
   <a href="https://pypi.org/project/BiliFM/"><img src="https://img.shields.io/pypi/pyversions/BiliFM?style=flat-square" alt="PyPI - Python Version"></a>
