@@ -1,0 +1,35 @@
+name: publish to pypi
+
+"on":
+  push:
+    tags:
+      - 'v*'
+  workflow_run:
+    workflows: ["Pre-Commit Check"]
+    types: completed
+    conclusion: success
+
+
+jobs:
+  release_to_pypi:
+    name: Release to PyPI
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/bilifm
+    permissions:
+      id-token: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup pdm
+        id: setup-pdm
+        uses: pdm-project/setup-pdm@v4
+      - name: Check output
+        run: |
+          echo ${{ steps.setup-pdm.outputs.pdm-bin }}
+          echo ${{ steps.setup-pdm.outputs.pdm-version }}
+          echo ${{ steps.setup-pdm.outputs.python-path }}
+          echo ${{ steps.setup-pdm.outputs.python-version }}
+      - name: pypi-publish-by-pdm
+        run: pdm publish
