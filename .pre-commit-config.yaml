@@ -30,7 +30,7 @@ repos:
     hooks:
     -   id: run-tests
         name: Run tests
-        entry: python -m unittest src/bilifm/test.py
+        entry: python3 -m unittest src/bilifm/test.py
         language: system
         types: [python]
         stages: [commit]
