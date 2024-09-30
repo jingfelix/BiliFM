@@ -25,6 +25,9 @@ class TestBiliFM(unittest.TestCase):
     def test_season_command(self):
         pass
 
+    def test_series_command(self):
+        pass
+
 
 if __name__ == "__main__":
     unittest.main()
