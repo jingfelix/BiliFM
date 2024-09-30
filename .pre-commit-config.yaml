@@ -26,3 +26,11 @@ repos:
         files: ^pdm.lock$
     -   id: pdm-lock-check
     -   id: pdm-sync
+-   repo: local
+    hooks:
+    -   id: run-tests
+        name: Run tests
+        entry: python -m unittest src/bilifm/test.py
+        language: system
+        types: [python]
+        stages: [commit]
