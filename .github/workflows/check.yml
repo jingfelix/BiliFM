@@ -14,5 +14,5 @@ jobs:
           - name: Install dependencies
             run: |
               python3 -m pip install --upgrade pip
-              pip install -r requirements.txt
+              pip install -e .
           - uses: pre-commit/action@v3.0.0
