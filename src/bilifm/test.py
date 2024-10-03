@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from .command import *
+from .command import bv, season, series, uid
 from .util import AudioQualityEnums, change_directory
 
 
@@ -44,9 +44,9 @@ class TestBiliFM(unittest.TestCase):
     def test_uid_command(self):
         self.assertIsNone(uid(self.uid, None, self.audioquality))
 
-    def test_fav_command(self):
-        # 需要cookies 感觉不太能测吧
-        pass
+    # def test_fav_command(self):
+    #     # 需要cookies 感觉不太能测吧
+    #     pass
 
     def test_season_command(self):
         self.assertIsNone(
