@@ -86,7 +86,6 @@ class Audio:
                 res = requests.get(
                     self.playUrl, params=params, headers=self.headers, timeout=60
                 )
-                print(res.status_code)
 
                 json = res.json()
 
@@ -161,7 +160,7 @@ class Audio:
         except Exception as e:
             console.print(
                 Panel(
-                    f"[bold red]下载失败[/bold red]\n错误: {str(e)}",
+                    f"[bold red]下载失败[/bold red]\n Code: {res.status_code} 错误: {str(e)}",
                     title="异常",
                     expand=False,
                 )
