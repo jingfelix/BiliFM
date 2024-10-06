@@ -163,6 +163,7 @@ class Audio:
                     expand=False,
                 )
             )
+            raise e
 
     def __get_cid_title(self, bvid: str):
         url = "https://api.bilibili.com/x/web-interface/view"
