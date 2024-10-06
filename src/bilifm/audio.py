@@ -83,9 +83,12 @@ class Audio:
                         "cid": cid,
                     }
                 )
-                json = requests.get(
-                    self.playUrl, params=params, headers=self.headers
-                ).json()
+                res = requests.get(
+                    self.playUrl, params=params, headers=self.headers, timeout=60
+                )
+                print(res.status_code)
+
+                json = res.json()
 
                 if json["data"] is None:
                     console.print(
