@@ -34,7 +34,7 @@ class TestBiliFM(unittest.TestCase):
         self.media_id = "69361944"
         self.test_series_uid = "1918016728"
         self.test_series_sid = "4049063"
-        self.uid = "123456"
+        self.uid = "7590247"
         self.test_season_uid = "48484716"
         self.test_season_sid = "28722"
 
