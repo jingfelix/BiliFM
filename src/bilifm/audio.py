@@ -84,7 +84,7 @@ class Audio:
                     }
                 )
                 res = requests.get(
-                    self.playUrl, params=params, headers=self.headers, timeout=120
+                    self.playUrl, params=params, headers=self.headers, timeout=30
                 )
 
                 json = res.json()
