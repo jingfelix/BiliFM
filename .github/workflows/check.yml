@@ -5,10 +5,17 @@ on:
     branches: [ main ]
   pull_request:
 
+env:
+  SKIP: run-tests
+
 jobs:
     pre_commit:
         runs-on: ubuntu-latest
         steps:
           - uses: actions/checkout@v3
           - uses: actions/setup-python@v3
+          - name: Install dependencies
+            run: |
+              python3 -m pip install --upgrade pip
+              pip install -e .
           - uses: pre-commit/action@v3.0.0

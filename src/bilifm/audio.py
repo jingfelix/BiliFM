@@ -83,9 +83,11 @@ class Audio:
                         "cid": cid,
                     }
                 )
-                json = requests.get(
-                    self.playUrl, params=params, headers=self.headers
-                ).json()
+                res = requests.get(
+                    self.playUrl, params=params, headers=self.headers, timeout=60
+                )
+
+                json = res.json()
 
                 if json["data"] is None:
                     console.print(
@@ -158,11 +160,12 @@ class Audio:
         except Exception as e:
             console.print(
                 Panel(
-                    f"[bold red]下载失败[/bold red]\n错误: {str(e)}",
+                    f"[bold red]下载失败[/bold red]\n Code: {res.status_code} 错误: {str(e)}",
                     title="异常",
                     expand=False,
                 )
             )
+            raise e
 
     def __get_cid_title(self, bvid: str):
         url = "https://api.bilibili.com/x/web-interface/view"
