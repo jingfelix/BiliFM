@@ -32,8 +32,8 @@ class TestBiliFM(unittest.TestCase):
         self.test_fav = "69361944"  # 暂时没有找到比较好的测试fav
         self.test_cookies_path = ""
         self.media_id = "69361944"
-        self.test_series_uid = "25876945"
-        self.test_series_sid = "273179"
+        self.test_series_uid = "1918016728"
+        self.test_series_sid = "4049063"
         self.uid = "16"
         self.test_season_uid = "48484716"
         self.test_season_sid = "28722"
