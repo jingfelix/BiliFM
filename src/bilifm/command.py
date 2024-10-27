@@ -79,8 +79,7 @@ def season(
     sea = Season(uid, sid)
     audio_generator = sea.get_videos()
     if not audio_generator:
-        typer.Exit(1)
-        return
+        raise typer.Exit(1)
 
     if not os.path.isdir(sea.name):
         os.makedirs(sea.name)
@@ -108,8 +107,7 @@ def series(
     ser = Series(uid, sid)
     audio_generator = ser.get_videos()
     if not audio_generator:
-        typer.Exit(1)
-        return
+        raise typer.Exit(1)
 
     for audios in audio_generator:
         for id in audios:

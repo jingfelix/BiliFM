@@ -1,5 +1,7 @@
+import json
 import os
 import random
+import re
 import time
 import urllib.parse
 from enum import Enum
@@ -174,6 +176,44 @@ def gen_dm_args(params: dict):
     )
 
     return params
+
+
+def get_w_webid(uid: str):
+    """reference: https://github.com/SocialSisterYi/bilibili-API-collect/issues/1107#issuecomment-2424269364"""
+
+    dynamic_url = f"https://space.bilibili.com/{uid}/dynamic"
+
+    # TODO: 简化所需的 headers 设置
+    headers = {
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "accept-language": "zh-CN,zh;q=0.9",
+        "cache-control": "no-cache",
+        "dnt": "1",
+        "pragma": "no-cache",
+        "priority": "u=0, i",
+        "sec-ch-ua": '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"macOS"',
+        "sec-fetch-dest": "document",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-site": "none",
+        "sec-fetch-user": "?1",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+    }
+
+    text = requests.get(dynamic_url, headers=headers).text
+
+    # <script id="__RENDER_DATA__" type="application/json">xxx</script>
+    __RENDER_DATA__ = re.search(
+        r"<script id=\"__RENDER_DATA__\" type=\"application/json\">(.*?)</script>",
+        text,
+        re.S,
+    ).group(1)
+
+    access_id = json.loads(urllib.parse.unquote(__RENDER_DATA__))["access_id"]
+
+    return access_id
 
 
 def request(
