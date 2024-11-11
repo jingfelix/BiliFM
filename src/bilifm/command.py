@@ -1,6 +1,8 @@
 import os
 
 import typer
+from rich.console import Console
+from rich.panel import Panel
 
 from .__version__ import __version__
 from .audio import Audio
@@ -11,6 +13,8 @@ from .user import User
 from .util import AudioQuality, AudioQualityEnums, Directory, Path
 
 app = typer.Typer()
+
+console = Console()
 
 
 @app.callback(invoke_without_command=True)
@@ -47,7 +51,15 @@ def uid(
         audio = Audio(bv, audio_quality)
         audio.download()
 
-    typer.echo("Download complete")
+    console.print(
+        Panel(
+            f"已下载 UID {uid} 的所有音频",
+            subtitle="下载完成",
+            title="UID 下载",
+            style="bold green",
+            expand=False,
+        )
+    )
 
 
 @app.command()
@@ -66,7 +78,15 @@ def fav(
         audio = Audio(bvid, audio_quality)
         audio.download()
 
-    typer.echo("Download complete")
+    console.print(
+        Panel(
+            f"已下载 收藏夹 {media_id} 的所有音频",
+            subtitle="下载完成",
+            title="收藏夹下载",
+            style="bold green",
+            expand=False,
+        )
+    )
 
 
 @app.command()
@@ -89,7 +109,15 @@ def season(
         for id in audios:
             audio = Audio(id, audio_quality)
             audio.download()
-    typer.echo("Download complete")
+    console.print(
+        Panel(
+            f"已下载 合集 {sid} 的所有音频",
+            subtitle="下载完成",
+            title="合集下载",
+            style="bold green",
+            expand=False,
+        )
+    )
 
 
 @app.command()
@@ -113,4 +141,12 @@ def series(
         for id in audios:
             audio = Audio(id, audio_quality)
             audio.download()
-    typer.echo("Download complete")
+    console.print(
+        Panel(
+            f"已下载 列表 {sid} 的所有音频",
+            subtitle="下载完成",
+            title="列表下载",
+            style="bold green",
+            expand=False,
+        )
+    )
