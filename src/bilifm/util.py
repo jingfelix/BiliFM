@@ -181,7 +181,7 @@ def gen_dm_args(params: dict):
 def get_w_webid(uid: str):
     """reference: https://github.com/SocialSisterYi/bilibili-API-collect/issues/1107#issuecomment-2424269364"""
 
-    dynamic_url = f"https://space.bilibili.com/{uid}/dynamic"
+    dynamic_url = f"https://space.bilibili.com/{uid}/upload/video"
 
     # TODO: 简化所需的 headers 设置
     headers = {

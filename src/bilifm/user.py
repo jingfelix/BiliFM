@@ -11,7 +11,7 @@ class User:
     def __init__(self, uid: str):
         self.uid = uid
 
-        w_webid = get_w_webid(uid)
+        # w_webid = get_w_webid(uid)
 
         params = {
             "mid": uid,
@@ -20,7 +20,7 @@ class User:
             "pn": 1,
             "order": "pubdate",
             "web_location": "333.999",
-            "w_webid": w_webid,
+            # "w_webid": w_webid,
         }
 
         response = request(
@@ -49,7 +49,7 @@ class User:
                 "pn": i,
                 "order": "pubdate",
                 "web_location": "333.999",
-                "w_webid": w_webid,
+                # "w_webid": w_webid,
             }
 
             response = request(
