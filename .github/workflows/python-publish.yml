@@ -4,10 +4,6 @@ name: publish to pypi
   push:
     tags:
       - 'v*'
-  workflow_run:
-    workflows: ["Pre-Commit Check"]
-    types: completed
-    conclusion: success
 
 
 jobs:

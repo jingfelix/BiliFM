@@ -279,3 +279,13 @@ AudioQuality = Annotated[
     AudioQualityEnums,
     typer.Option("--quality", "-q", help="audio quality", case_sensitive=False),
 ]
+
+DownloadDelay = Annotated[
+    float,
+    typer.Option(
+        "--interval",
+        "--delay",
+        min=0,
+        help="seconds to wait between multi-part play URL requests",
+    ),
+]

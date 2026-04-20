@@ -10,6 +10,10 @@ from .util import AudioQualityEnums, get_signed_params
 
 console = Console()
 
+DEFAULT_REQUEST_DELAY = 2.0
+DEFAULT_PLAY_URL_RETRIES = 3
+DEFAULT_RETRY_DELAY = 2.0
+
 
 class Audio:
     bvid = ""
@@ -19,7 +23,14 @@ class Audio:
 
     headers = {}
 
-    def __init__(self, bvid: str, audio_quality: AudioQualityEnums) -> None:
+    def __init__(
+        self,
+        bvid: str,
+        audio_quality: AudioQualityEnums,
+        request_delay: float = DEFAULT_REQUEST_DELAY,
+        play_url_retries: int = DEFAULT_PLAY_URL_RETRIES,
+        retry_delay: float = DEFAULT_RETRY_DELAY,
+    ) -> None:
         if bvid is None:
             raise ValueError("bvid is None")
 
@@ -44,6 +55,9 @@ class Audio:
         }
 
         self.audio_quality = audio_quality.quality_id
+        self.request_delay = max(request_delay, 0)
+        self.play_url_retries = max(play_url_retries, 1)
+        self.retry_delay = max(retry_delay, 0)
 
         # 获取cid和title
         if len(bvid) == 12:
@@ -56,7 +70,9 @@ class Audio:
     def download(self):
         start_time = time.time()
         try:
-            for cid, part in zip(self.cid_list, self.part_list):
+            is_multi_part = len(self.part_list) > 1
+
+            for index, (cid, part) in enumerate(zip(self.cid_list, self.part_list)):
                 if len(self.part_list) > 1:
                     file_path = f"{self.title}-{part}.mp3"
                 else:
@@ -69,39 +85,20 @@ class Audio:
                 if os.path.exists(file_path):
                     console.print(
                         Panel(
-                            f"{self.title} 已存在，跳过下载",
+                            f"{file_path} 已存在，跳过下载",
                             style="yellow",
                             expand=False,
                         )
                     )
-                    return
+                    continue
 
-                params = get_signed_params(
-                    {
-                        "fnval": 16,
-                        "bvid": self.bvid,
-                        "cid": cid,
-                    }
-                )
-                res = requests.get(
-                    self.playUrl, params=params, headers=self.headers, timeout=60
-                )
+                if is_multi_part and index > 0 and self.request_delay > 0:
+                    time.sleep(self.request_delay)
 
-                json = res.json()
+                payload, params = self.__get_play_url_payload(cid)
 
-                if json["data"] is None:
-                    console.print(
-                        Panel(
-                            f"[bold red]数据字段无效[/bold red]\n"
-                            f"URL: {self.playUrl}\n"
-                            f"参数: {params}",
-                            title="错误",
-                            expand=False,
-                        )
-                    )
-                    return
-
-                audio = json["data"]["dash"]["audio"]
+                data = payload.get("data")
+                audio = data["dash"].get("audio", [])
                 if not audio:
                     console.print(
                         Panel(
@@ -123,7 +120,10 @@ class Audio:
                 if base_url is None:
                     base_url = audio[0]["baseUrl"]
 
-                response = requests.get(url=base_url, headers=self.headers, stream=True)
+                response = requests.get(
+                    url=base_url, headers=self.headers, stream=True, timeout=60
+                )
+                response.raise_for_status()
 
                 total_size = int(response.headers.get("content-length", 0))
 
@@ -160,12 +160,68 @@ class Audio:
         except Exception as e:
             console.print(
                 Panel(
-                    f"[bold red]下载失败[/bold red]\n Code: {res.status_code} 错误: {str(e)}",
+                    f"[bold red]下载失败[/bold red]\n错误: {str(e)}",
                     title="异常",
                     expand=False,
                 )
             )
             raise e
+
+    def __get_play_url_payload(self, cid: str):
+        params = get_signed_params(
+            {
+                "fnval": 16,
+                "bvid": self.bvid,
+                "cid": cid,
+            }
+        )
+        last_payload = None
+
+        for attempt in range(1, self.play_url_retries + 1):
+            response = requests.get(
+                self.playUrl, params=params, headers=self.headers, timeout=60
+            )
+            response.raise_for_status()
+            payload = response.json()
+            last_payload = payload
+
+            if self.__has_dash_audio(payload):
+                return payload, params
+
+            if attempt < self.play_url_retries and self.retry_delay > 0:
+                time.sleep(self.retry_delay)
+
+        raise RuntimeError(
+            "[bold red]播放地址响应缺少 dash.audio[/bold red]\n"
+            "可能触发了 B 站风控，请稍后重试或增大 --interval。\n"
+            f"URL: {self.playUrl}\n"
+            f"参数: {params}\n"
+            f"响应: {self.__payload_summary(last_payload)}"
+        )
+
+    def __has_dash_audio(self, payload: dict) -> bool:
+        data = payload.get("data")
+        if not isinstance(data, dict):
+            return False
+
+        dash = data.get("dash")
+        return isinstance(dash, dict) and "audio" in dash
+
+    def __payload_summary(self, payload: dict) -> str:
+        if not payload:
+            return "无响应内容"
+
+        data = payload.get("data")
+        if isinstance(data, dict):
+            return (
+                f"code={payload.get('code')}, message={payload.get('message')}, "
+                f"data_keys={list(data.keys())}"
+            )
+
+        return (
+            f"code={payload.get('code')}, message={payload.get('message')}, "
+            f"data={data}"
+        )
 
     def __get_cid_title(self, bvid: str):
         url = "https://api.bilibili.com/x/web-interface/view"

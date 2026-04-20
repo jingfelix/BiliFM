@@ -10,7 +10,7 @@ from .fav import Fav
 from .season import Season
 from .series import Series
 from .user import User
-from .util import AudioQuality, AudioQualityEnums, Directory, Path
+from .util import AudioQuality, AudioQualityEnums, Directory, DownloadDelay, Path
 
 app = typer.Typer()
 
@@ -33,8 +33,9 @@ def bv(
     bv: str,
     directory: Directory = None,
     audio_quality: AudioQuality = AudioQualityEnums.k192.value,
+    request_delay: DownloadDelay = 2.0,
 ):
-    audio = Audio(bv, audio_quality)
+    audio = Audio(bv, audio_quality, request_delay=request_delay)
     audio.download()
 
 
@@ -43,12 +44,13 @@ def uid(
     uid: str,
     directory: Directory = None,
     audio_quality: AudioQuality = AudioQualityEnums.k192.value,
+    request_delay: DownloadDelay = 2.0,
 ):
     user = User(uid)
 
     for video in user.videos:
         bv = video["bvid"]
-        audio = Audio(bv, audio_quality)
+        audio = Audio(bv, audio_quality, request_delay=request_delay)
         audio.download()
 
     console.print(
@@ -68,6 +70,7 @@ def fav(
     cookies_path: str = Path,
     directory: Directory = None,
     audio_quality: AudioQuality = AudioQualityEnums.k192.value,
+    request_delay: DownloadDelay = 2.0,
 ):
     with open(cookies_path, "r") as f:
         cookies = f.read()
@@ -75,7 +78,7 @@ def fav(
     fav = Fav(media_id, cookies)
 
     for bvid in fav.id_list:
-        audio = Audio(bvid, audio_quality)
+        audio = Audio(bvid, audio_quality, request_delay=request_delay)
         audio.download()
 
     console.print(
@@ -95,6 +98,7 @@ def season(
     sid: str,
     directory: Directory = None,
     audio_quality: AudioQuality = AudioQualityEnums.k192.value,
+    request_delay: DownloadDelay = 2.0,
 ):
     sea = Season(uid, sid)
     audio_generator = sea.get_videos()
@@ -107,7 +111,7 @@ def season(
 
     for audios in audio_generator:
         for id in audios:
-            audio = Audio(id, audio_quality)
+            audio = Audio(id, audio_quality, request_delay=request_delay)
             audio.download()
     console.print(
         Panel(
@@ -126,6 +130,7 @@ def series(
     sid: str,
     directory: Directory = None,
     audio_quality: AudioQuality = AudioQualityEnums.k64,
+    request_delay: DownloadDelay = 2.0,
 ):
     """Download bilibili video series
 
@@ -139,7 +144,7 @@ def series(
 
     for audios in audio_generator:
         for id in audios:
-            audio = Audio(id, audio_quality)
+            audio = Audio(id, audio_quality, request_delay=request_delay)
             audio.download()
     console.print(
         Panel(
