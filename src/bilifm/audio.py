@@ -1,3 +1,4 @@
+import mimetypes
 import os
 import time
 
@@ -73,25 +74,6 @@ class Audio:
             is_multi_part = len(self.part_list) > 1
 
             for index, (cid, part) in enumerate(zip(self.cid_list, self.part_list)):
-                if len(self.part_list) > 1:
-                    file_path = f"{self.title}-{part}.mp3"
-                else:
-                    file_path = f"{self.title}.mp3"
-
-                if len(file_path) > 255:
-                    file_path = file_path[:255]
-
-                # 如果文件已存在，则跳过下载
-                if os.path.exists(file_path):
-                    console.print(
-                        Panel(
-                            f"{file_path} 已存在，跳过下载",
-                            style="yellow",
-                            expand=False,
-                        )
-                    )
-                    continue
-
                 if is_multi_part and index > 0 and self.request_delay > 0:
                     time.sleep(self.request_delay)
 
@@ -112,13 +94,37 @@ class Audio:
                     return
 
                 base_url = None
+                mime_type = None
                 for au in audio:
                     if au["id"] == self.audio_quality:
                         base_url = au["baseUrl"]
+                        mime_type = au.get("mimeType", "")
 
                 # no audio url corresponding to current audio quality
                 if base_url is None:
                     base_url = audio[0]["baseUrl"]
+                    mime_type = audio[0].get("mimeType", "")
+
+                ext = mimetypes.guess_extension(mime_type) or ".m4a"
+
+                if len(self.part_list) > 1:
+                    file_path = f"{self.title}-{part}{ext}"
+                else:
+                    file_path = f"{self.title}{ext}"
+
+                if len(file_path) > 255:
+                    file_path = file_path[:255]
+
+                # 如果文件已存在，则跳过下载
+                if os.path.exists(file_path):
+                    console.print(
+                        Panel(
+                            f"{file_path} 已存在，跳过下载",
+                            style="yellow",
+                            expand=False,
+                        )
+                    )
+                    continue
 
                 response = requests.get(
                     url=base_url, headers=self.headers, stream=True, timeout=60
