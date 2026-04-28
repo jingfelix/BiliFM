@@ -51,7 +51,7 @@ class Audio:
             "sec-fetch-user": "?1",
             "upgrade-insecure-requests": "1",
             "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
-            "Referer": "https://www.bilibili.com/video/{bvid}".format(bvid=self.bvid),
+            "Referer": "https://www.bilibili.com/",
         }
 
         self.audio_quality = audio_quality.quality_id
