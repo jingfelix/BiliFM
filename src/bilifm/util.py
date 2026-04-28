@@ -7,11 +7,10 @@ import urllib.parse
 from enum import Enum
 from functools import reduce
 from hashlib import md5
-from typing import Callable
+from typing import Annotated, Callable
 
 import requests
 import typer
-from typing_extensions import Annotated
 
 HEADERS = {
     "authority": "api.bilibili.com",
