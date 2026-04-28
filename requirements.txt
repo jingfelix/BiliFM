@@ -15,4 +15,4 @@ shellingham==1.5.4
 typer==0.17.4
 typer[all]==0.17.4
 typing-extensions==4.15.0
-urllib3==2.5.0
+urllib3==2.6.3
