@@ -5,7 +5,7 @@ import re
 import time
 import urllib.parse
 from enum import Enum
-from functools import reduce
+from functools import lru_cache, reduce
 from hashlib import md5
 from typing import Annotated, Callable
 
@@ -139,6 +139,41 @@ def encWbi(params: dict, img_key: str, sub_key: str):
     return params
 
 
+@lru_cache(maxsize=1)
+def _fetch_buvid3() -> str:
+    """只缓存成功获取的匿名 buvid3，异常不会进入缓存。"""
+    resp = requests.get(
+        "https://api.bilibili.com/x/frontend/finger/spi",
+        headers={"user-agent": HEADERS["user-agent"]},
+        timeout=10,
+    )
+    resp.raise_for_status()
+    buvid3 = resp.json()["data"]["b_3"]
+    if not isinstance(buvid3, str) or not buvid3:
+        raise ValueError("Empty or invalid buvid3")
+    return buvid3
+
+
+def get_buvid3() -> str:
+    """最多尝试三次获取 buvid3；失败时允许后续调用重新获取。"""
+    for attempt in range(3):
+        try:
+            return _fetch_buvid3()
+        except (requests.RequestException, ValueError, KeyError, TypeError):
+            if attempt < 2:
+                time.sleep(0.5 * 2**attempt)
+    return ""
+
+
+def get_headers() -> dict:
+    """HEADERS 加上匿名 buvid3 cookie"""
+    headers = dict(HEADERS)
+    buvid3 = get_buvid3()
+    if buvid3:
+        headers["Cookie"] = f"buvid3={buvid3}"
+    return headers
+
+
 def getWbiKeys() -> tuple[str, str]:
     "获取最新的 img_key 和 sub_key"
     resp = requests.get("https://api.bilibili.com/x/web-interface/nav", headers=HEADERS)
@@ -228,6 +263,11 @@ def request(
         params = gen_dm_args(params)
     if wbi and params is not None:
         params = get_signed_params(params)
+
+    if kwargs.get("cookies") is None:
+        buvid3 = get_buvid3()
+        if buvid3:
+            kwargs["cookies"] = {"buvid3": buvid3}
 
     return requests.request(method, url, params=params, headers=headers, **kwargs)
 
